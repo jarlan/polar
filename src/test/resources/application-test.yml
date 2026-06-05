@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:sqlite:file::memory:?cache=shared
+    driver-class-name: org.sqlite.JDBC
+  jpa:
+    database-platform: org.hibernate.community.dialect.SQLiteDialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+
+app:
+  qr-output-dir: ./test-qr
+  default-prize-threshold: 2

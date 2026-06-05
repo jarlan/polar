@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Live Leaderboard')}"></head>
+<body class="bg-dark-dance leaderboard-fullscreen">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<div class="container-fluid py-4" id="leaderboard-container">
+    <div class="text-center mb-4">
+        <h1 class="display-4 fw-bold text-white">
+            <i class="bi bi-trophy-fill text-warning me-3"></i>Live Leaderboard
+            <i class="bi bi-trophy-fill text-warning ms-3"></i>
+        </h1>
+        <div class="badge bg-dance fs-6">
+            <i class="bi bi-broadcast me-1"></i>Live Updates
+            <span id="connection-status" class="ms-2">●</span>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div id="leaderboard-table">
+                <table class="table table-dark table-hover leaderboard-table">
+                    <thead>
+                        <tr class="border-dance">
+                            <th class="fs-4" width="80">Rank</th>
+                            <th class="fs-4">Dancer</th>
+                            <th class="fs-4 text-end">Partners</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard-body">
+                        <tr th:each="entry, stat : ${leaderboard}"
+                            th:id="'row-' + ${entry.participantId}"
+                            th:class="${entry.rank == 1 ? 'rank-1' : (entry.rank == 2 ? 'rank-2' : (entry.rank == 3 ? 'rank-3' : ''))}">
+                            <td class="fs-3 fw-bold">
+                                <span th:if="${entry.rank == 1}">🥇</span>
+                                <span th:if="${entry.rank == 2}">🥈</span>
+                                <span th:if="${entry.rank == 3}">🥉</span>
+                                <span th:if="${entry.rank > 3}" th:text="${entry.rank}"></span>
+                            </td>
+                            <td class="fs-3 fw-bold" th:text="${entry.name}">Name</td>
+                            <td class="fs-3 fw-bold text-end text-dance" th:text="${entry.uniquePartners}">0</td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(leaderboard)}">
+                            <td colspan="3" class="text-center text-muted py-5 fs-4">No dances yet. Time to hit the floor! 💃</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<div th:replace="~{fragments/layout :: scripts}"></div>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+<script th:src="@{/js/leaderboard.js}"></script>
+</body>
+</html>

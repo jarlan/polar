@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: dance-partner-challenge
+  datasource:
+    url: jdbc:sqlite:./data/dance.db
+    driver-class-name: org.sqlite.JDBC
+  jpa:
+    database-platform: org.hibernate.community.dialect.SQLiteDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+  thymeleaf:
+    cache: false
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+server:
+  port: 8080
+
+app:
+  qr-output-dir: ./generated-qr
+  default-prize-threshold: 10
+
+logging:
+  level:
+    com.polarsirkelrock: INFO

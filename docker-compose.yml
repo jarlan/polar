@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  dance-challenge:
+    build: .
+    container_name: dance-partner-challenge
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/app/data
+      - ./generated-qr:/app/generated-qr
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:sqlite:/app/data/dance.db
+      - APP_QR_OUTPUT_DIR=/app/generated-qr
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

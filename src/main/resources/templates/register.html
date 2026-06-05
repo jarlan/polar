@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Register Dance')}"></head>
+<body class="bg-dark-dance">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card bg-card">
+                <div class="card-header bg-dance text-white text-center">
+                    <h3><i class="bi bi-qr-code-scan me-2"></i>Register Dance</h3>
+                </div>
+                <div class="card-body p-4">
+                    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+                    <div th:if="${partnerName}" class="alert alert-info">
+                        <i class="bi bi-person-check me-2"></i>
+                        Partner: <strong th:text="${partnerName}">Name</strong>
+                    </div>
+
+                    <p class="text-light text-center mb-4">Enter your participant ID to register this dance!</p>
+
+                    <form th:action="@{/register}" method="post" th:object="${form}">
+                        <input type="hidden" th:field="*{partnerId}" th:value="${partnerId}"/>
+
+                        <div class="mb-3">
+                            <label for="myId" class="form-label text-light">Your Participant ID</label>
+                            <input type="number" class="form-control form-control-lg bg-dark text-white border-dance"
+                                   id="myId" th:field="*{myId}" placeholder="Enter your ID" required/>
+                            <div class="form-text text-muted">This is the ID on your name tag or event card.</div>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-dance btn-lg">
+                                <i class="bi bi-check-circle me-2"></i>Register Dance!
+                            </button>
+                        </div>
+                    </form>
+
+                    <hr class="border-secondary mt-4"/>
+                    <p class="text-muted text-center small">
+                        Your ID will be remembered in your browser for quick future registrations.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<div th:replace="~{fragments/layout :: scripts}"></div>
+<script th:src="@{/js/register.js}"></script>
+</body>
+</html>
