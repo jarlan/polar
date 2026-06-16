@@ -45,11 +45,15 @@ public class AdminController {
     }
 
     @PostMapping("/generate-qr")
-    public String generateQr(HttpServletRequest request, Model model) {
+    public String generateQr(HttpServletRequest request,
+                              @RequestParam(required = false) String baseUrl) {
         try {
-            String baseUrl = request.getScheme() + "://" + request.getServerName()
-                    + (request.getServerPort() != 80 && request.getServerPort() != 443
-                       ? ":" + request.getServerPort() : "");
+            if (baseUrl == null || baseUrl.isBlank()) {
+                baseUrl = request.getScheme() + "://" + request.getServerName()
+                        + (request.getServerPort() != 80 && request.getServerPort() != 443
+                           ? ":" + request.getServerPort() : "");
+            }
+            baseUrl = baseUrl.stripTrailing().replaceAll("/+$", "");
             int count = qrCodeService.generateAll(baseUrl);
             return "redirect:/admin?qrGenerated=" + count;
         } catch (Exception e) {

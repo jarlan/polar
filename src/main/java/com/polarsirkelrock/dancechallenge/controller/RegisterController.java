@@ -23,7 +23,9 @@ public class RegisterController {
             );
         }
         model.addAttribute("partnerId", partner);
-        model.addAttribute("form", new RegisterFormDto());
+        RegisterFormDto form = new RegisterFormDto();
+        form.setPartnerId(partner);
+        model.addAttribute("form", form);
         return "register";
     }
 

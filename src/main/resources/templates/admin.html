@@ -74,8 +74,15 @@
                     <h5 class="mb-0"><i class="bi bi-qr-code me-2"></i>QR Code Generation</h5>
                 </div>
                 <div class="card-body">
-                    <p class="text-muted small">Generate QR codes for all participants.</p>
+                    <p class="text-muted small">Generate QR codes for all participants. Skriv inn serverens IP-adresse slik deltakere når den fra mobil.</p>
                     <form th:action="@{/admin/generate-qr}" method="post" class="mb-3">
+                        <div class="mb-2">
+                            <label class="form-label text-light small">Server base URL <span class="text-muted">(f.eks. http://192.168.1.100:8080)</span></label>
+                            <input type="url" class="form-control bg-dark text-white border-dance"
+                                   name="baseUrl" placeholder="http://192.168.1.100:8080"
+                                   id="baseUrlInput"/>
+                            <div class="form-text text-muted">La stå tom for å bruke <code>localhost</code> (kun for testing).</div>
+                        </div>
                         <button type="submit" class="btn btn-dance w-100">
                             <i class="bi bi-qr-code me-2"></i>Generate QR Codes
                         </button>
@@ -195,5 +202,12 @@
 
 <footer th:replace="~{fragments/layout :: footer}"></footer>
 <div th:replace="~{fragments/layout :: scripts}"></div>
+<script>
+  // Auto-fill base URL with current browser origin (server's actual IP/hostname)
+  var input = document.getElementById('baseUrlInput');
+  if (input && !input.value) {
+    input.value = window.location.origin;
+  }
+</script>
 </body>
 </html>
