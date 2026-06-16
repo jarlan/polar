@@ -20,7 +20,7 @@ spring:
       max-request-size: 10MB
 
 server:
-  port: 8443
+  port: 8080
   ssl:
     enabled: true
     key-store: classpath:keystore.p12
