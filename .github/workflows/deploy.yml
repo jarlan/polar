@@ -1,4 +1,36 @@
-name: Deploy to Railway
+#name: Deploy to Railway
+#
+#on:
+#  push:
+#    branches:
+#      - main
+#
+#jobs:
+#  deploy:
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v4
+#
+#      - name: Set up Java
+#        uses: actions/setup-java@v4
+#        with:
+#          java-version: '21'
+#          distribution: 'temurin'
+#          cache: maven
+#
+#      - name: Build with Maven
+#        run: mvn package -DskipTests
+#
+#      - name: Install Railway CLI
+#        run: npm install -g @railway/cli
+#
+#      - name: Deploy to Railway
+#        run: railway up --detach
+#        env:
+#          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+name: Deploy to Render
 
 on:
   push:
@@ -13,20 +45,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Java
-        uses: actions/setup-java@v4
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
         with:
-          java-version: '21'
-          distribution: 'temurin'
-          cache: maven
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build with Maven
-        run: mvn package -DskipTests
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/${{ github.repository }}:latest
 
-      - name: Install Railway CLI
-        run: npm install -g @railway/cli
-
-      - name: Deploy to Railway
-        run: railway up --detach
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+      - name: Trigger Render Deploy
+        run: curl -s --fail -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
