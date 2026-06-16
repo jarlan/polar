@@ -9,10 +9,10 @@ RUN mvn package -DskipTests -q
 # Runtime stage
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
-RUN addgroup -S spring && adduser -S spring -G spring \
-    && mkdir -p /app/data /app/generated-qr \
-    && chown -R spring:spring /app/data /app/generated-qr
-USER spring:spring
+#RUN addgroup -S spring && adduser -S spring -G spring \
+#    && mkdir -p /app/data /app/generated-qr \
+#    && chown -R spring:spring /app/data /app/generated-qr
+#USER spring:spring
 COPY --from=build /app/target/*.jar app.jar
 VOLUME /app/data
 VOLUME /app/generated-qr
