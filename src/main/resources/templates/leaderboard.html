@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head th:replace="~{fragments/layout :: head('Live Leaderboard')}"></head>
+<head th:replace="~{fragments/layout :: head('Direkte toppliste')}"></head>
 <body class="bg-dark-dance leaderboard-fullscreen">
 <nav th:replace="~{fragments/layout :: navbar}"></nav>
 
@@ -22,9 +22,9 @@
                 <table class="table table-dark table-hover leaderboard-table">
                     <thead>
                         <tr class="border-dance">
-                            <th class="fs-4" width="80">Rank</th>
-                            <th class="fs-4">Dancer</th>
-                            <th class="fs-4 text-end">Partners</th>
+                            <th class="fs-4" width="80">Plassering</th>
+                            <th class="fs-4">Danser</th>
+                            <th class="fs-4 text-end">Partnere</th>
                         </tr>
                     </thead>
                     <tbody id="leaderboard-body">
@@ -41,7 +41,7 @@
                             <td class="fs-3 fw-bold text-end text-dance" th:text="${entry.uniquePartners}">0</td>
                         </tr>
                         <tr th:if="${#lists.isEmpty(leaderboard)}">
-                            <td colspan="3" class="text-center text-muted py-5 fs-4">No dances yet. Time to hit the floor! 💃</td>
+                            <td colspan="3" class="text-center text-muted py-5 fs-4">Ingen danser ennå. På tide å komme seg på dansegulvet! 💃</td>
                         </tr>
                     </tbody>
                 </table>

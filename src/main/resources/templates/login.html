@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head th:replace="~{fragments/layout :: head('Admin Login')}"></head>
+<head th:replace="~{fragments/layout :: head('Adminpålogging')}"></head>
 <body class="bg-dark-dance">
 <nav th:replace="~{fragments/layout :: navbar}"></nav>
 
@@ -9,29 +9,29 @@
         <div class="col-md-4">
             <div class="card bg-card">
                 <div class="card-header bg-dance text-white text-center">
-                    <h3><i class="bi bi-lock me-2"></i>Admin Login</h3>
+                    <h3><i class="bi bi-lock me-2"></i>Adminpålogging</h3>
                 </div>
                 <div class="card-body p-4">
                     <div th:if="${param.error}" class="alert alert-danger">
-                        Invalid username or password.
+                        Ugyldig brukernavn eller passord.
                     </div>
                     <div th:if="${param.logout}" class="alert alert-info">
-                        You have been logged out.
+                        Du har blitt logget ut.
                     </div>
                     <form th:action="@{/login}" method="post">
                         <div class="mb-3">
-                            <label class="form-label text-light">Username</label>
+                            <label class="form-label text-light">Brukernavn</label>
                             <input type="text" class="form-control bg-dark text-white border-dance"
                                    name="username" required autofocus/>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label text-light">Password</label>
+                            <label class="form-label text-light">Passord</label>
                             <input type="password" class="form-control bg-dark text-white border-dance"
                                    name="password" required/>
                         </div>
                         <div class="d-grid">
                             <button type="submit" class="btn btn-dance btn-lg">
-                                <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                                <i class="bi bi-box-arrow-in-right me-2"></i>Logg inn
                             </button>
                         </div>
                     </form>
