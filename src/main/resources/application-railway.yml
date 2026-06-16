@@ -2,3 +2,4 @@ server:
   port: ${PORT:8080}
   ssl:
     enabled: false
+  forward-headers-strategy: framework

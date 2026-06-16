@@ -32,7 +32,10 @@ public class SecurityConfig {
                 .permitAll()
             )
             .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/api/**", "/ws/**")
+                .ignoringRequestMatchers("/api/**", "/ws/**", "/ws/info/**", "/ws/**/**")
+            )
+            .headers(headers -> headers
+                .frameOptions(frame -> frame.sameOrigin())
             );
         return http.build();
     }
