@@ -17,4 +17,4 @@ COPY --from=build /app/target/*.jar app.jar
 VOLUME /app/data
 VOLUME /app/generated-qr
 EXPOSE 8080
-ENTRYPOINT ["java", "-Dspring.profiles.active=render", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-Dspring.profiles.active=railway", "-jar", "app.jar"]
