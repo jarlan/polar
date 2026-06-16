@@ -24,7 +24,7 @@ server:
   ssl:
     enabled: true
     key-store: classpath:keystore.p12
-    key-store-password: dancechallenge
+    key-store-password: ${SSL_KEYSTORE_PASSWORD:dancechallenge}
     key-store-type: PKCS12
     key-alias: dance-app
 
