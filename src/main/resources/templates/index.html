@@ -50,7 +50,7 @@
                     </thead>
                     <tbody>
                         <tr th:if="${#lists.isEmpty(leaderboard)}">
-                            <td colspan="3" class="text-center text-muted py-4">Ingen danser registrert ennå. Kom deg på dansegulvet!</td>
+                            <td colspan="3" class="text-center text-white py-4">Ingen danser registrert ennå. Kom deg på dansegulvet!</td>
                         </tr>
                         <tr th:each="entry : ${leaderboard}"
                             th:class="${entry.rank == 1 ? 'table-warning' : (entry.rank == 2 ? 'table-secondary' : (entry.rank == 3 ? 'rank-bronze' : ''))}">
