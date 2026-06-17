@@ -70,11 +70,18 @@ public class ParticipantService {
         List<Object[]> raw = danceRepository.leaderboardRaw();
         List<LeaderboardEntryDto> result = new ArrayList<>();
         int rank = 1;
-        for (Object[] row : raw) {
+        for (int i = 0; i < raw.size(); i++) {
+            Object[] row = raw.get(i);
             Long id = ((Number) row[0]).longValue();
             String name = (String) row[1];
             long cnt = ((Number) row[2]).longValue();
-            result.add(new LeaderboardEntryDto(rank++, id, name, cnt));
+            if (i > 0) {
+                long prevCnt = ((Number) raw.get(i - 1)[2]).longValue();
+                if (cnt < prevCnt) {
+                    rank = i + 1;
+                }
+            }
+            result.add(new LeaderboardEntryDto(rank, id, name, cnt));
         }
         return result;
     }

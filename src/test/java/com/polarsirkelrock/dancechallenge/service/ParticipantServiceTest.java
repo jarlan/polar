@@ -1,5 +1,6 @@
 package com.polarsirkelrock.dancechallenge.service;
 
+import com.polarsirkelrock.dancechallenge.dto.LeaderboardEntryDto;
 import com.polarsirkelrock.dancechallenge.entity.Participant;
 import com.polarsirkelrock.dancechallenge.repository.DanceRepository;
 import com.polarsirkelrock.dancechallenge.repository.DrawResultRepository;
@@ -70,6 +71,25 @@ class ParticipantServiceTest {
         var leaderboard = participantService.getLeaderboard();
         assertThat(leaderboard.get(0).getName()).isEqualTo("Anne");
         assertThat(leaderboard.get(0).getUniquePartners()).isEqualTo(3);
+    }
+
+    @Test
+    void leaderboard_tiedParticipantsShareRank() throws Exception {
+        String csv = "1;Anne\n2;Ola\n3;Per\n4;Kari\n";
+        participantService.importCsv(new ByteArrayInputStream(csv.getBytes(StandardCharsets.UTF_8)));
+
+        // Anne og Ola får begge 2 partnere, Per og Kari får 1 partner
+        danceService.registerDance(1L, 2L); // Anne-Ola
+        danceService.registerDance(1L, 3L); // Anne-Per
+        danceService.registerDance(2L, 4L); // Ola-Kari
+
+        var leaderboard = participantService.getLeaderboard();
+        // Anne og Ola er begge #1
+        assertThat(leaderboard.stream().filter(e -> e.getUniquePartners() == 2)
+                .map(LeaderboardEntryDto::getRank).distinct().toList()).containsExactly(1);
+        // Per og Kari hopper til #3 (to deler #1, så neste er #3)
+        assertThat(leaderboard.stream().filter(e -> e.getUniquePartners() == 1)
+                .map(LeaderboardEntryDto::getRank).distinct().toList()).containsExactly(3);
     }
 
     @Test
