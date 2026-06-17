@@ -17,8 +17,8 @@ public class StatisticsApiController {
     @GetMapping
     public StatisticsDto getStatistics() {
         var leaderboard = participantService.getLeaderboard();
-        String topDancer = leaderboard.isEmpty() ? "None" : leaderboard.get(0).getName();
-        long topPartners = leaderboard.isEmpty() ? 0 : leaderboard.get(0).getUniquePartners();
+        String topDancer = leaderboard.isEmpty() ? "None" : leaderboard.getFirst().getName();
+        long topPartners = leaderboard.isEmpty() ? 0 : leaderboard.getFirst().getUniquePartners();
         return new StatisticsDto(
             participantService.countTotal(),
             danceService.countTotal(),

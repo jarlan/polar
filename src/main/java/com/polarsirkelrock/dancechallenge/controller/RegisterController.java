@@ -1,6 +1,7 @@
 package com.polarsirkelrock.dancechallenge.controller;
 
 import com.polarsirkelrock.dancechallenge.dto.RegisterFormDto;
+import com.polarsirkelrock.dancechallenge.entity.Participant;
 import com.polarsirkelrock.dancechallenge.service.DanceService;
 import com.polarsirkelrock.dancechallenge.service.ParticipantService;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +36,7 @@ public class RegisterController {
             boolean isNew = danceService.registerDance(form.getMyId(), form.getPartnerId());
             model.addAttribute("isNew", isNew);
             String partnerName = participantService.findById(form.getPartnerId())
-                    .map(p -> p.getName()).orElse("Unknown");
+                    .map(Participant::getName).orElse("Unknown");
             model.addAttribute("partnerName", partnerName);
             model.addAttribute("myId", form.getMyId());
             return "success";

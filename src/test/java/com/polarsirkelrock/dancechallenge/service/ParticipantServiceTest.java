@@ -69,8 +69,8 @@ class ParticipantServiceTest {
         danceService.registerDance(2L, 3L);
 
         var leaderboard = participantService.getLeaderboard();
-        assertThat(leaderboard.get(0).getName()).isEqualTo("Anne");
-        assertThat(leaderboard.get(0).getUniquePartners()).isEqualTo(3);
+        assertThat(leaderboard.getFirst().getName()).isEqualTo("Anne");
+        assertThat(leaderboard.getFirst().getUniquePartners()).isEqualTo(3);
     }
 
     @Test

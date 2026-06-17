@@ -54,7 +54,7 @@ class DanceServiceTest {
     @Test
     void registerDance_normalizesOrder() {
         danceService.registerDance(3L, 1L);
-        var dance = danceRepository.findAll().get(0);
+        var dance = danceRepository.findAll().getFirst();
         assertThat(dance.getParticipantA().getId()).isEqualTo(1L);
         assertThat(dance.getParticipantB().getId()).isEqualTo(3L);
     }

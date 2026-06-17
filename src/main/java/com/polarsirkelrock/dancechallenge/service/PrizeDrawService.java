@@ -27,7 +27,7 @@ public class PrizeDrawService {
         List<LeaderboardEntryDto> leaderboard = participantService.getLeaderboard();
         List<LeaderboardEntryDto> eligible = leaderboard.stream()
                 .filter(e -> e.getUniquePartners() >= threshold)
-                .collect(Collectors.toList());
+                .toList();
 
         if (eligible.isEmpty()) {
             throw new IllegalStateException("No eligible participants with >= " + threshold + " partners");
