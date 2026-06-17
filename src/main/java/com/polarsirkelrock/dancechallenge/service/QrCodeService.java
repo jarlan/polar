@@ -184,4 +184,27 @@ public class QrCodeService {
         }
         return baos.toByteArray();
     }
+
+    @Transactional
+    public int deleteAllQrFiles() throws IOException {
+        Path qrDir = Paths.get(qrOutputDir);
+        int count = 0;
+        if (Files.exists(qrDir)) {
+            List<Path> files = Files.list(qrDir)
+                    .filter(p -> p.toString().endsWith(".png"))
+                    .toList();
+            for (Path f : files) {
+                Files.deleteIfExists(f);
+                count++;
+            }
+        }
+        participantRepository.findAll().forEach(p -> {
+            if (p.getQrCodeUrl() != null) {
+                p.setQrCodeUrl(null);
+                participantRepository.save(p);
+            }
+        });
+        log.info("Deleted {} QR code files", count);
+        return count;
+    }
 }

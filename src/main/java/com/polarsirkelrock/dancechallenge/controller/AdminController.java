@@ -83,4 +83,35 @@ public class AdminController {
             return "redirect:/admin?drawError=" + e.getMessage();
         }
     }
+
+    @PostMapping("/delete-participants")
+    public String deleteParticipants() {
+        try {
+            qrCodeService.deleteAllQrFiles();
+            participantService.deleteAll();
+            return "redirect:/admin?deletedParticipants=true";
+        } catch (Exception e) {
+            return "redirect:/admin?deleteError=" + e.getMessage();
+        }
+    }
+
+    @PostMapping("/delete-statistics")
+    public String deleteStatistics() {
+        try {
+            danceService.deleteAllDances();
+            return "redirect:/admin?deletedStatistics=true";
+        } catch (Exception e) {
+            return "redirect:/admin?deleteError=" + e.getMessage();
+        }
+    }
+
+    @PostMapping("/delete-qr")
+    public String deleteQr() {
+        try {
+            int count = qrCodeService.deleteAllQrFiles();
+            return "redirect:/admin?deletedQr=" + count;
+        } catch (Exception e) {
+            return "redirect:/admin?deleteError=" + e.getMessage();
+        }
+    }
 }

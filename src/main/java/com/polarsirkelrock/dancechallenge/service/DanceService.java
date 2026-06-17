@@ -66,4 +66,11 @@ public class DanceService {
     public long countTotal() {
         return danceRepository.count();
     }
+
+    @Transactional
+    public void deleteAllDances() {
+        danceRepository.deleteAll();
+        log.info("All dance records deleted");
+        webSocketService.broadcastLeaderboard(participantService.getLeaderboard());
+    }
 }

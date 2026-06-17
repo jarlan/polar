@@ -3,6 +3,7 @@ package com.polarsirkelrock.dancechallenge.service;
 import com.polarsirkelrock.dancechallenge.dto.LeaderboardEntryDto;
 import com.polarsirkelrock.dancechallenge.entity.Participant;
 import com.polarsirkelrock.dancechallenge.repository.DanceRepository;
+import com.polarsirkelrock.dancechallenge.repository.DrawResultRepository;
 import com.polarsirkelrock.dancechallenge.repository.ParticipantRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,7 @@ public class ParticipantService {
 
     private final ParticipantRepository participantRepository;
     private final DanceRepository danceRepository;
+    private final DrawResultRepository drawResultRepository;
 
     public List<Participant> findAll() {
         return participantRepository.findAll();
@@ -87,5 +89,13 @@ public class ParticipantService {
 
     public long countTotal() {
         return participantRepository.count();
+    }
+
+    @Transactional
+    public void deleteAll() {
+        drawResultRepository.deleteAll();
+        danceRepository.deleteAll();
+        participantRepository.deleteAll();
+        log.info("All participants, dances and draw results deleted");
     }
 }

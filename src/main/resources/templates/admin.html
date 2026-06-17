@@ -15,12 +15,28 @@
         <i class="bi bi-check-circle me-2"></i>Genererte <span th:text="${param.qrGenerated}"></span> QR-koder.
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
+    <div th:if="${param.deletedParticipants}" class="alert alert-warning alert-dismissible fade show">
+        <i class="bi bi-trash me-2"></i>Alle deltakere, danser og QR-koder er slettet.
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <div th:if="${param.deletedStatistics}" class="alert alert-warning alert-dismissible fade show">
+        <i class="bi bi-trash me-2"></i>All dansestatistikk er slettet.
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <div th:if="${param.deletedQr}" class="alert alert-warning alert-dismissible fade show">
+        <i class="bi bi-trash me-2"></i>Slettet <span th:text="${param.deletedQr}"></span> QR-kodefil(er).
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
     <div th:if="${param.winner}" class="alert alert-warning alert-dismissible fade show fs-4 text-center">
         <i class="bi bi-trophy-fill me-2"></i>Vinner: <strong th:text="${param.winner}"></strong>
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
     <div th:if="${param.drawError}" class="alert alert-danger alert-dismissible fade show">
         Trekkfeil: <span th:text="${param.drawError}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <div th:if="${param.deleteError}" class="alert alert-danger alert-dismissible fade show">
+        <i class="bi bi-exclamation-triangle me-2"></i>Sletting feilet: <span th:text="${param.deleteError}"></span>
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 
@@ -197,9 +213,106 @@
                 </div>
             </div>
         </div>
+
+        <!-- Danger Zone -->
+        <div class="col-12">
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0"><i class="bi bi-exclamation-triangle-fill me-2"></i>Faresone – Slett data</h5>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted small mb-3">Disse handlingene er permanente og kan ikke angres.</p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <button type="button" class="btn btn-outline-danger"
+                                data-bs-toggle="modal" data-bs-target="#deleteQrModal">
+                            <i class="bi bi-qr-code me-2"></i>Slett QR-koder
+                        </button>
+                        <button type="button" class="btn btn-outline-danger"
+                                data-bs-toggle="modal" data-bs-target="#deleteStatisticsModal">
+                            <i class="bi bi-bar-chart me-2"></i>Slett statistikk
+                        </button>
+                        <button type="button" class="btn btn-danger"
+                                data-bs-toggle="modal" data-bs-target="#deleteParticipantsModal">
+                            <i class="bi bi-people me-2"></i>Slett alle deltakere
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
+<!-- Modal: Slett QR-koder -->
+<div class="modal fade" id="deleteQrModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header border-danger">
+                <h5 class="modal-title"><i class="bi bi-qr-code me-2"></i>Slett QR-koder</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                Alle genererte QR-kodefiler vil bli slettet fra disk, og QR-lenker fjernes fra deltakerne.
+                Er du sikker?
+            </div>
+            <div class="modal-footer border-secondary">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Avbryt</button>
+                <form th:action="@{/admin/delete-qr}" method="post">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash me-1"></i>Slett QR-koder
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Slett statistikk -->
+<div class="modal fade" id="deleteStatisticsModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header border-danger">
+                <h5 class="modal-title"><i class="bi bi-bar-chart me-2"></i>Slett statistikk</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                All dansestatistikk (alle registrerte danseparene) vil bli slettet.
+                Deltakerne beholdes. Er du sikker?
+            </div>
+            <div class="modal-footer border-secondary">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Avbryt</button>
+                <form th:action="@{/admin/delete-statistics}" method="post">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash me-1"></i>Slett statistikk
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Slett alle deltakere -->
+<div class="modal fade" id="deleteParticipantsModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header border-danger">
+                <h5 class="modal-title"><i class="bi bi-people me-2"></i>Slett alle deltakere</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <strong class="text-danger">Advarsel:</strong> Alle deltakere, dansestatistikk, trekkhistorikk og
+                QR-koder vil bli permanent slettet. Denne handlingen kan ikke angres!
+            </div>
+            <div class="modal-footer border-secondary">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Avbryt</button>
+                <form th:action="@{/admin/delete-participants}" method="post">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash me-1"></i>Slett alt
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <footer th:replace="~{fragments/layout :: footer}"></footer>
 <div th:replace="~{fragments/layout :: scripts}"></div>
 <script>
