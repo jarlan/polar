@@ -58,4 +58,25 @@ class DanceServiceTest {
         assertThat(dance.getParticipantA().getId()).isEqualTo(1L);
         assertThat(dance.getParticipantB().getId()).isEqualTo(3L);
     }
+
+    @Test
+    void deleteAllDances_clearsDanceRecords() {
+        danceService.registerDance(1L, 2L);
+        danceService.registerDance(2L, 3L);
+        assertThat(danceRepository.count()).isEqualTo(2);
+
+        danceService.deleteAllDances();
+
+        assertThat(danceRepository.count()).isZero();
+    }
+
+    @Test
+    void deleteAllDances_leaderboardBecomesZero() {
+        danceService.registerDance(1L, 2L);
+        danceService.registerDance(1L, 3L);
+
+        danceService.deleteAllDances();
+
+        assertThat(danceRepository.count()).isZero();
+    }
 }

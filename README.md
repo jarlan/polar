@@ -104,6 +104,9 @@ Deltakere skanner hverandres QR-kode etter dans. Applikasjonen registrerer og te
 - Se live leaderboard
 - Kjør trekning (premieutdeling)
 - Eksporter statistikk (JSON)
+- **Slett QR-koder** — fjerner genererte filer fra disk og nullstiller QR-lenker
+- **Slett statistikk** — sletter alle registrerte danseparrelasjoner
+- **Slett alle deltakere** — sletter deltakere, dansestatistikk, trekkhistorikk og QR-koder (permanent)
 
 ---
 
@@ -132,6 +135,20 @@ Deltakere skanner hverandres QR-kode etter dans. Applikasjonen registrerer og te
 ```json
 { "participantId": 1, "partnerId": 2 }
 ```
+
+---
+
+## Admin-endepunkter
+
+| Metode | URL | Beskrivelse |
+|--------|-----|-------------|
+| `POST` | `/admin/import-csv` | Importer deltakere fra CSV |
+| `POST` | `/admin/generate-qr` | Generer QR-koder for alle deltakere |
+| `GET` | `/admin/download-qr` | Last ned alle QR-koder som ZIP |
+| `POST` | `/admin/prize-draw` | Kjør premietrekning |
+| `POST` | `/admin/delete-qr` | Slett alle genererte QR-filer |
+| `POST` | `/admin/delete-statistics` | Slett all dansestatistikk |
+| `POST` | `/admin/delete-participants` | Slett alle deltakere og all data |
 
 ---
 

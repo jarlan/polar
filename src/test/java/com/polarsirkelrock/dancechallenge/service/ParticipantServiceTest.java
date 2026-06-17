@@ -2,6 +2,7 @@ package com.polarsirkelrock.dancechallenge.service;
 
 import com.polarsirkelrock.dancechallenge.entity.Participant;
 import com.polarsirkelrock.dancechallenge.repository.DanceRepository;
+import com.polarsirkelrock.dancechallenge.repository.DrawResultRepository;
 import com.polarsirkelrock.dancechallenge.repository.ParticipantRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,9 +25,11 @@ class ParticipantServiceTest {
     @Autowired DanceService danceService;
     @Autowired ParticipantRepository participantRepository;
     @Autowired DanceRepository danceRepository;
+    @Autowired DrawResultRepository drawResultRepository;
 
     @BeforeEach
     void setup() {
+        drawResultRepository.deleteAll();
         danceRepository.deleteAll();
         participantRepository.deleteAll();
     }
@@ -78,5 +81,18 @@ class ParticipantServiceTest {
 
         long count = participantService.countUniquePartners(1L);
         assertThat(count).isEqualTo(2);
+    }
+
+    @Test
+    void deleteAll_removesAllParticipantsAndDances() throws Exception {
+        String csv = "1;Anne\n2;Ola\n3;Per\n";
+        participantService.importCsv(new ByteArrayInputStream(csv.getBytes(StandardCharsets.UTF_8)));
+        danceService.registerDance(1L, 2L);
+        danceService.registerDance(2L, 3L);
+
+        participantService.deleteAll();
+
+        assertThat(participantRepository.count()).isZero();
+        assertThat(danceRepository.count()).isZero();
     }
 }
