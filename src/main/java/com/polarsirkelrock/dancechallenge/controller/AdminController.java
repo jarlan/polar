@@ -33,6 +33,24 @@ public class AdminController {
         return "admin";
     }
 
+    @GetMapping("/prize-draw")
+    public String prizeDrawGui(@RequestParam(required = false) Integer threshold, Model model) {
+        int selectedThreshold = threshold != null ? threshold : defaultThreshold;
+        model.addAttribute("threshold", selectedThreshold);
+        model.addAttribute("candidates", prizeDrawService.getEligibleCandidates(selectedThreshold));
+        return "prize-draw";
+    }
+
+    @PostMapping("/prize-draw/animate")
+    @ResponseBody
+    public ResponseEntity<?> prizeDrawAnimate(@RequestParam(defaultValue = "10") int threshold) {
+        try {
+            return ResponseEntity.ok(prizeDrawService.drawForAnimation(threshold));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @PostMapping("/import-csv")
     public String importCsv(@RequestParam("file") MultipartFile file, Model model) {
         try {

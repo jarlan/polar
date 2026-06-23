@@ -116,15 +116,18 @@
                     <h5 class="mb-0"><i class="bi bi-gift me-2"></i>Premietrekking</h5>
                 </div>
                 <div class="card-body">
-                    <p class="text-white small">Trekk en tilfeldig vinner blant deltakere med minst et visst antall unike partnere.</p>
-                    <form th:action="@{/admin/prize-draw}" method="post" class="d-flex gap-2 align-items-end">
+                    <p class="text-white small">
+                        Åpne en egen visuell trekkingsside som viser kandidatene og avslører vinneren på en spennende måte.
+                    </p>
+
+                    <form th:action="@{/admin/prize-draw}" method="get" class="d-flex gap-2 align-items-end">
                         <div class="flex-grow-1">
                             <label class="form-label text-light">Minimum partnere</label>
                             <input type="number" class="form-control bg-dark text-white border-dance"
                                    name="threshold" th:value="${defaultThreshold}" min="1" required/>
                         </div>
                         <button type="submit" class="btn btn-warning btn-lg">
-                            <i class="bi bi-shuffle me-2"></i>Trekk vinner!
+                            <i class="bi bi-stars me-2"></i>Åpne trekkings-GUI
                         </button>
                     </form>
 

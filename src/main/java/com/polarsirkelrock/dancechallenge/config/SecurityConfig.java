@@ -32,7 +32,7 @@ public class SecurityConfig {
                 .permitAll()
             )
             .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/api/**", "/ws/**")
+                .ignoringRequestMatchers("/api/**", "/ws/**", "/admin/prize-draw/animate")
             );
         return http.build();
     }

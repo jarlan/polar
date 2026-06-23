@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="no">
+<head th:replace="~{fragments/layout :: head('Premietrekking')}"></head>
+<body class="bg-dark-dance prize-draw-body">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container-fluid prize-draw-stage py-4">
+    <div class="text-center mb-4">
+        <div class="prize-draw-kicker">
+            <i class="bi bi-stars me-2"></i>Live premietrekking
+        </div>
+        <h1 class="prize-draw-title">
+            Hvem stikker av med premien?
+        </h1>
+        <p class="text-white-50 fs-5">
+            Trekking blant deltakere med minst
+            <strong class="text-warning" th:text="${threshold}">5</strong>
+            unike partnere.
+        </p>
+    </div>
+
+    <section class="draw-control-panel mx-auto mb-4">
+        <form id="drawForm" class="row g-3 align-items-end">
+            <div class="col-md-5">
+                <label for="thresholdInput" class="form-label text-light">Minimum partnere</label>
+                <input id="thresholdInput"
+                       name="threshold"
+                       type="number"
+                       min="1"
+                       class="form-control form-control-lg bg-dark text-white border-dance"
+                       th:value="${threshold}"
+                       required>
+            </div>
+            <div class="col-md-7 d-grid">
+                <button id="startDrawButton" type="submit" class="btn btn-warning btn-lg fw-bold">
+                    <i class="bi bi-lightning-charge-fill me-2"></i>Start dramatisk trekking
+                </button>
+            </div>
+        </form>
+
+        <div id="drawMessage" class="text-center text-white-50 mt-3">
+            Kandidater klare:
+            <strong class="text-dance" th:text="${#lists.size(candidates)}">0</strong>
+        </div>
+    </section>
+
+    <section class="candidate-arena">
+        <div id="candidateGrid" class="candidate-grid">
+            <article class="candidate-card"
+                     th:each="candidate : ${candidates}"
+                     th:data-participant-id="${candidate.participantId}">
+                <div class="candidate-icon">
+                    <i class="bi bi-person-arms-up"></i>
+                </div>
+                <div class="candidate-name" th:text="${candidate.name}">Navn</div>
+                <div class="candidate-score">
+                    <i class="bi bi-people-fill me-1"></i>
+                    <span th:text="${candidate.uniquePartners}">5</span>
+                    partnere
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section id="winnerReveal" class="winner-reveal d-none">
+        <div class="winner-content">
+            <div class="winner-label">
+                <i class="bi bi-trophy-fill me-2"></i>Vinneren er
+            </div>
+            <div id="winnerName" class="winner-name"></div>
+            <div id="winnerPartners" class="winner-partners"></div>
+            <a th:href="@{/admin}" class="btn btn-outline-light btn-lg mt-4">
+                <i class="bi bi-arrow-left me-2"></i>Tilbake til admin
+            </a>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<div th:replace="~{fragments/layout :: scripts}"></div>
+<script th:src="@{/js/prize-draw.js}"></script>
+</body>
+</html>

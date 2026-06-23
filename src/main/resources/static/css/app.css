@@ -144,3 +144,250 @@ body {
     }
     .display-4 { font-size: 2rem; }
 }
+.prize-draw-body {
+    overflow-x: hidden;
+}
+
+.prize-draw-stage {
+    position: relative;
+    min-height: 85vh;
+}
+
+.prize-draw-stage::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+            radial-gradient(circle at 20% 20%, rgba(233, 30, 140, 0.24), transparent 32%),
+            radial-gradient(circle at 80% 25%, rgba(156, 39, 176, 0.26), transparent 34%),
+            radial-gradient(circle at 50% 85%, rgba(255, 193, 7, 0.16), transparent 36%);
+    animation: stageLights 6s ease-in-out infinite alternate;
+}
+
+.prize-draw-kicker {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.45rem 1rem;
+    border: 1px solid rgba(255, 193, 7, 0.55);
+    border-radius: 999px;
+    color: #ffc107;
+    background: rgba(255, 193, 7, 0.08);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.prize-draw-title {
+    margin-top: 1rem;
+    color: white;
+    font-size: clamp(2.4rem, 6vw, 5.5rem);
+    font-weight: 900;
+    text-shadow: 0 0 30px rgba(233, 30, 140, 0.75);
+}
+
+.draw-control-panel {
+    max-width: 820px;
+    padding: 1.25rem;
+    border: 1px solid rgba(233, 30, 140, 0.4);
+    border-radius: 1.25rem;
+    background: rgba(22, 27, 34, 0.88);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(10px);
+}
+
+.candidate-arena {
+    position: relative;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.candidate-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 1rem;
+}
+
+.candidate-card {
+    position: relative;
+    min-height: 170px;
+    padding: 1.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 1.4rem;
+    background:
+            linear-gradient(145deg, rgba(33, 38, 45, 0.92), rgba(13, 17, 23, 0.92)),
+            radial-gradient(circle at top, rgba(233, 30, 140, 0.18), transparent 60%);
+    color: white;
+    text-align: center;
+    transform: scale(1);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    overflow: hidden;
+}
+
+.candidate-card::after {
+    content: "";
+    position: absolute;
+    inset: -60%;
+    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.22), transparent);
+    transform: rotate(25deg) translateX(-120%);
+}
+
+.candidate-card.candidate-active {
+    transform: scale(1.08) rotate(-1deg);
+    border-color: #ffc107;
+    box-shadow:
+            0 0 0 4px rgba(255, 193, 7, 0.18),
+            0 0 38px rgba(255, 193, 7, 0.62);
+    z-index: 5;
+}
+
+.candidate-card.candidate-active::after {
+    animation: cardShine 0.45s ease;
+}
+
+.candidate-card.candidate-winner {
+    transform: scale(1.16);
+    border-color: #ffc107;
+    background:
+            radial-gradient(circle at top, rgba(255, 193, 7, 0.35), transparent 58%),
+            linear-gradient(145deg, rgba(233, 30, 140, 0.96), rgba(156, 39, 176, 0.96));
+    box-shadow:
+            0 0 0 6px rgba(255, 193, 7, 0.22),
+            0 0 70px rgba(255, 193, 7, 0.85);
+    animation: winnerPulse 1s ease-in-out infinite alternate;
+    z-index: 10;
+}
+
+.candidate-icon {
+    width: 58px;
+    height: 58px;
+    display: grid;
+    place-items: center;
+    margin: 0 auto 0.85rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--dance-primary), var(--dance-secondary));
+    font-size: 1.9rem;
+    box-shadow: 0 0 24px rgba(233, 30, 140, 0.45);
+}
+
+.candidate-name {
+    font-size: 1.15rem;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.candidate-score {
+    margin-top: 0.6rem;
+    color: rgba(255, 255, 255, 0.72);
+    font-weight: 600;
+}
+
+.winner-reveal {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    z-index: 1000;
+    background: rgba(13, 17, 23, 0.72);
+    backdrop-filter: blur(8px);
+}
+
+.winner-content {
+    position: relative;
+    max-width: 900px;
+    width: calc(100% - 2rem);
+    padding: 3rem 2rem;
+    border-radius: 2rem;
+    text-align: center;
+    color: white;
+    background:
+            radial-gradient(circle at top, rgba(255, 193, 7, 0.3), transparent 52%),
+            linear-gradient(135deg, rgba(233, 30, 140, 0.96), rgba(156, 39, 176, 0.96));
+    box-shadow: 0 0 100px rgba(255, 193, 7, 0.42);
+    animation: revealPop 0.75s cubic-bezier(.2, 1.4, .4, 1);
+}
+
+.winner-label {
+    color: #ffc107;
+    font-size: clamp(1.3rem, 3vw, 2rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.winner-name {
+    margin-top: 0.5rem;
+    font-size: clamp(3rem, 9vw, 7rem);
+    font-weight: 1000;
+    line-height: 1;
+    text-shadow: 0 0 35px rgba(255, 255, 255, 0.45);
+}
+
+.winner-partners {
+    margin-top: 1rem;
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    color: rgba(255, 255, 255, 0.86);
+    font-weight: 700;
+}
+
+.draw-confetti {
+    position: fixed;
+    top: -20px;
+    width: 12px;
+    height: 18px;
+    z-index: 2000;
+    border-radius: 3px;
+    animation: confettiFall 3.2s linear forwards;
+}
+
+@keyframes stageLights {
+    from {
+        filter: hue-rotate(0deg) brightness(1);
+        opacity: 0.78;
+    }
+    to {
+        filter: hue-rotate(35deg) brightness(1.25);
+        opacity: 1;
+    }
+}
+
+@keyframes cardShine {
+    from {
+        transform: rotate(25deg) translateX(-120%);
+    }
+    to {
+        transform: rotate(25deg) translateX(120%);
+    }
+}
+
+@keyframes winnerPulse {
+    from {
+        filter: brightness(1);
+    }
+    to {
+        filter: brightness(1.25);
+    }
+}
+
+@keyframes revealPop {
+    from {
+        opacity: 0;
+        transform: scale(0.72) rotate(-2deg);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+    }
+}
+
+@keyframes confettiFall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(110vh) rotate(760deg);
+        opacity: 0;
+    }
+}

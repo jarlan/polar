@@ -1,6 +1,6 @@
 # Dance Partner Challenge
 
-Nettapplikasjon for danseeventer. Deltakere skanner hverandres QR-koder etter dans, og applikasjonen registrerer unike dansepartnerskap og viser et sanntids-leaderboard.
+Nettapplikasjon for danseeventer. Deltakere skanner hverandres QR-koder etter dans, og applikasjonen registrerer unike dansepartnerskap og viser et sanntids-leaderboard og lar administrator kjøre en visuell og spennende premietrekking blant kvalifiserte deltakere.
 
 ---
 
@@ -102,12 +102,59 @@ Deltakere skanner hverandres QR-kode etter dans. Applikasjonen registrerer og te
 - Generer etikettbilder med QR-kode, navn og ID
 - Last ned alle etiketter som ZIP
 - Se live leaderboard
-- Kjør trekning (premieutdeling)
-- Eksporter statistikk (JSON)
+- Åpne visuell premietrekkings-GUI
+- Kjør spennende premietrekking blant kvalifiserte deltakere
+- Se trekkhistorikk
+- Eksporter statistikk som JSON
 - **Slett QR-koder** — fjerner genererte filer fra disk og nullstiller QR-lenker
 - **Slett statistikk** — sletter alle registrerte danseparrelasjoner
-- **Slett alle deltakere** — sletter deltakere, dansestatistikk, trekkhistorikk og QR-koder (permanent)
+- **Slett alle deltakere** — sletter deltakere, dansestatistikk, trekkhistorikk og QR-koder permanent
 
+
+---
+
+## Premietrekking
+
+Applikasjonen har en egen visuell GUI for premietrekking. Den brukes fra admin-panelet og er laget for å kunne vises på en større skjerm under arrangementet.
+
+Premietrekkingen fungerer slik:
+
+1. Administrator velger minimum antall unike partnere.
+2. Systemet finner alle deltakere som har danset med minst dette antallet unike partnere.
+3. Kandidatene vises visuelt i en egen trekkingsside.
+4. Trekkingen kjøres med animasjon, lys-effekter og konfetti.
+5. Vinneren avsløres dramatisk på skjermen.
+6. Vinneren lagres i trekkhistorikken.
+
+Eksempel:
+
+Hvis minimum partnere settes til `5`, vil bare deltakere med minst 5 unike dansepartnere være med i trekningen.
+
+### Bruk av premietrekking
+
+1. Gå til admin-panelet:
+
+   ```text
+   https://localhost:8443/admin
+   ```
+
+2. Finn kortet **Premietrekking**.
+
+3. Velg minimum antall partnere.
+
+4. Trykk **Åpne trekkings-GUI**.
+
+5. På trekkingssiden trykker du **Start dramatisk trekking**.
+
+6. Vinneren vises på skjermen og lagres automatisk i trekkhistorikken.
+
+### Visningsside
+
+| URL | Beskrivelse |
+|-----|-------------|
+| `/admin/prize-draw` | Egen visuell GUI for premietrekking |
+
+Siden krever admin-innlogging.
 ---
 
 ## Sider
@@ -116,9 +163,10 @@ Deltakere skanner hverandres QR-kode etter dans. Applikasjonen registrerer og te
 |-----|-------------|
 | `/` | Forside med topp 10 og statistikk |
 | `/leaderboard` | Fullskjerm sanntids-leaderboard |
-| `/register?partner={id}` | Registrer dans (åpnes via QR) |
+| `/register?partner={id}` | Registrer dans, åpnes vanligvis via QR-kode |
 | `/participant/{id}` | Deltaker-statistikk |
-| `/admin` | Admin-panel (krever innlogging) |
+| `/admin` | Admin-panel, krever innlogging |
+| `/admin/prize-draw` | Visuell premietrekkings-GUI, krever innlogging |
 
 ---
 
@@ -139,13 +187,16 @@ Deltakere skanner hverandres QR-kode etter dans. Applikasjonen registrerer og te
 ---
 
 ## Admin-endepunkter
+Admin-endepunktene for premietrekking er ikke offentlige API-er. De krever innlogging som administrator.
 
 | Metode | URL | Beskrivelse |
 |--------|-----|-------------|
 | `POST` | `/admin/import-csv` | Importer deltakere fra CSV |
 | `POST` | `/admin/generate-qr` | Generer QR-koder for alle deltakere |
 | `GET` | `/admin/download-qr` | Last ned alle QR-koder som ZIP |
-| `POST` | `/admin/prize-draw` | Kjør premietrekning |
+| `GET` | `/admin/prize-draw` | Åpne visuell premietrekkings-GUI |
+| `POST` | `/admin/prize-draw/animate` | Kjør premietrekking fra GUI og returner kandidater/vinner til animasjonen |
+| `POST` | `/admin/prize-draw` | Eldre/enkel premietrekking uten egen visuell GUI |
 | `POST` | `/admin/delete-qr` | Slett alle genererte QR-filer |
 | `POST` | `/admin/delete-statistics` | Slett all dansestatistikk |
 | `POST` | `/admin/delete-participants` | Slett alle deltakere og all data |
